@@ -1,0 +1,243 @@
+# ==========================================
+# 1 METADANE WORKFLOW'U
+# ==========================================
+
+name: Deploy React App
+# ↳ Nazwa workflow'u widoczna na GitHub Actions tab
+# ↳ Pojawia się jako "Deploy React App" w historii
+
+
+# ==========================================
+# 2 TRIGGERY - Kiedy się uruchomić?
+# ==========================================
+
+on:
+  push:
+    branches: [ main ]
+    # ↳ Uruchom workflow gdy:
+    #   • Coś zostanie push'nięte (git push)
+    #   • Na branchu o nazwie 'main'
+    #   • Czyli KAŻDY commit na main = automatyczny deploy
+    
+    # 💡 Jeśli masz brancha 'master' zamiast 'main':
+    # branches: [ master ]
+
+  workflow_dispatch:
+    # ↳ Dodatkowy trigger - możliwość ręcznego uruchomienia
+    # ↳ Pojawia się przycisk "Run workflow" w GitHub Actions
+    # ↳ Przydatne gdy chcesz zdeployować bez commitowania
+
+
+# ==========================================
+# 3 UPRAWNIENIA - Co workflow może robić?
+# ==========================================
+
+permissions:
+  contents: read
+    # ↳ Zezwól odczytać zawartość repozytorium
+    # ↳ Potrzebne do: git checkout (pobierz kod)
+
+  pages: write
+    # ↳ Zezwól pisać do GitHub Pages
+    # ↳ Potrzebne do: deployment aplikacji na GitHub Pages
+
+  id-token: write
+    # ↳ Zezwól używać OpenID Connect token'ów
+    # ↳ Potrzebne do: bezpieczna autoryzacja w GitHub Pages
+    # ↳ To jest nowsza, bardziej bezpieczna metoda niż GitHub token
+
+
+# ==========================================
+# 4 JOBS - Co dokładnie robić?
+# ==========================================
+
+jobs:
+  build:
+    # ↳ Nazwa joba (możesz mieć wiele: build, test, deploy, etc.)
+    
+    runs-on: ubuntu-latest
+    # ↳ Na jakim systemie operacyjnym uruchomić?
+    # ↳ ubuntu-latest = najnowsza wersja Ubuntu (Linux)
+    # ↳ Opcje: ubuntu-latest, macos-latest, windows-latest
+
+
+    # ==========================================
+    # 5 KROKI - Instrukcje wykonania
+    # ==========================================
+
+    steps:
+
+      # KROK 1: Pobierz kod z repozytorium
+      - uses: actions/checkout@v4
+        # ↳ Użyj gotowej akcji 'checkout' (wersja 4)
+        # ↳ Akcja = gotowy skrypt od GitHub
+        # ↳ Co robi: git clone https://github.com/twoja-nazwa/repo.git
+        # ↳ Pobiera cały kod do workflow runner'a
+
+
+      # KROK 2: Zainstaluj Node.js
+      - uses: actions/setup-node@v4
+        # ↳ Użyj akcji do zainstalowania Node.js
+        
+        with:
+          node-version: '18'
+          # ↳ Parametry dla akcji setup-node
+          # ↳ Zainstaluj Node.js wersja 18.x
+          # ↳ Opcje: '16', '18', '20', '21', itp.
+
+
+      # KROK 3: Zainstaluj zależności
+      - run: npm ci
+        # ↳ Uruchom komendę: npm ci
+        # ↳ ci = "Clean Install" (bardziej powtarzalny niż npm install)
+        # ↳ Instaluje zależności z package-lock.json
+        # ↳ Co się dzieje:
+        #   1. Czyta package.json i package-lock.json
+        #   2. Pobiera dokładnie te same wersje pakietów
+        #   3. Zainstaluje w node_modules/
+        #   4. Gotowaaplikacja do builda
+
+
+      # KROK 4: Zbuduj aplikację
+      - run: npm run build
+        # ↳ Uruchom komendę: npm run build
+        # ↳ Definicja w package.json: "build": "tsc && vite build"
+        # ↳ Co się dzieje:
+        #   1. TypeScript kompiluje .tsx → .js
+        #   2. Vite pakuje i minifikuje kod
+        #   3. Tworzy folder 'dist/' z wersją produkcyjną
+        #   4. dist/ zawiera: index.html, assets/ (JS, CSS)
+        # ↳ Folder dist/ jest gotowy do deployment'u
+
+
+      # KROK 5: Upload artefaktu (wynik builda)
+      - uses: actions/upload-pages-artifact@v3
+        # ↳ Użyj akcji do uploadu do GitHub Pages
+        # ↳ Akcja przygotowuje folder do deployment'u
+        
+        with:
+          path: './dist'
+          # ↳ Parametry: ścieżka do folderu do uploadu
+          # ↳ './dist' = folder wygenerowany przez: npm run build
+          # ↳ Zawiera: HTML, CSS, JS gotowy do serowania
+
+
+      # KROK 6: Deploy na GitHub Pages
+      - uses: actions/deploy-pages@v3
+        # ↳ Użyj akcji do deployment'u na GitHub Pages
+        # ↳ Co robi:
+        #   1. Bierze uploaded artefakt (dist/)
+        #   2. Publikuje na: https://twoja-nazwa.github.io/repo-name/
+        #   3. GitHub Pages seruje pliki HTML/CSS/JS
+        # ↳ Aplikacja jest teraz live! 
+
+
+# ==========================================
+#  PRZEPŁYW WORKFLOW'U
+# ==========================================
+
+# Schemat chronologiczny:
+#
+# 1. Coś push'ujesz na main branch
+#    ↓
+# 2. GitHub Actions się uruchamia
+#    ↓
+# 3. Pobiera kod z repo (checkout)
+#    ↓
+# 4. Instaluje Node.js v18
+#    ↓
+# 5. npm ci (instalacja zależności)
+#    ↓
+# 6. npm run build (kompilacja TypeScript + Vite bundling)
+#    ↓
+# 7. Upload folder dist/
+#    ↓
+# 8. Deploy na GitHub Pages
+#    ↓
+# 9. Aplikacja dostępna na: https://user.github.io/repo-name/
+#    ↓
+#    KONIEC - workflow zakończony!
+
+
+# ==========================================
+# KONFIGURACJA DLA TWOJEGO PROJEKTU
+# ==========================================
+
+# Czego może być potrzeba zmienić?
+
+# 1. Jeśli masz brancha 'master' zamiast 'main':
+branches: [ master ]
+
+# 2. Jeśli używasz innej wersji Node.js:
+node-version: '20'  # zamiast '18'
+
+# 3. Jeśli zamiast npm używasz yarn:
+# - run: yarn install
+# - run: yarn build
+
+# 4. Jeśli zamiast npm ci używasz:
+# - run: npm install  # mniej powtarzalny, ale możliwy
+
+
+# ==========================================
+# WAŻNE: Konfiguracja vite.config.ts
+# ==========================================
+
+# Żeby aplikacja działała na GitHub Pages, musisz mieć:
+#
+# vite.config.ts:
+# export default defineConfig({
+#   plugins: [react()],
+#   base: '/react-ts-starter/', // NAZWA REPOZYTORIUM!
+# })
+#
+# Jeśli nie ustawisz 'base', linki będą się łamać!
+
+
+# ==========================================
+# ZMIENNE ŚRODOWISKOWE (opcjonalnie)
+# ==========================================
+
+# Jeśli potrzebujesz zmiennych env w CI/CD:
+#
+# env:
+#   CI: true          # Dla Create React App
+#   NODE_ENV: production
+#
+# steps:
+#   - run: echo ${{ env.CI }}
+
+
+# ==========================================
+# SECRETS (jeśli potrzebujesz haseł/tokenów)
+# ==========================================
+
+# Jeśli masz API keys, haseła, tokeny:
+#
+# 1. Idź do: Settings → Secrets and variables → Actions
+# 2. Kliknij "New repository secret"
+# 3. Dodaj: MY_SECRET_KEY = "wartość"
+#
+# W workflow:
+# - run: echo ${{ secrets.MY_SECRET_KEY }}
+
+
+# ==========================================
+# SPRAWDZENIE: Czy wszystko OK?
+# ==========================================
+
+# 1. GitHub Actions tab → widać "Deploy React App"
+# 2. Kliknij ostatni run
+# 3. Widać wszystkie kroki (checkout, setup-node, npm ci, npm run build, etc.)
+# 4. Każdy krok ma (success) lub (failed)
+# 5. Jeśli ostatni krok (deploy-pages) =  aplikacja live!
+# 6. Settings → Pages → zobacz Environment URL
+
+
+# ==========================================
+# READY TO GO!
+# ==========================================
+
+# Teraz każdy push na main = automatyczny deploy
+# Workflow działa bez Twojego udziału!
+# GitHub Actions robi całą robotę za Ciebie
