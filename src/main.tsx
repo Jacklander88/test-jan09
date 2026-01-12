@@ -1,0 +1,1 @@
+// stub to satisfy /src/main.tsx requests (no-op)
