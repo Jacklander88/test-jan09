@@ -1,75 +1,331 @@
 /* Migrated styles for React app */
 /* Simple reset */
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#0b1f12; /* deep forest green */
-  --card:#081712;
-  --muted:#b6c8ad;
-  --accent1:#9ccf6a;
-  --accent2:#5b8a3e;
-  --glass: rgba(255,255,255,0.04);
-  --radius:12px;
-  --max:1100px;
-  --container-padding:24px;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0
+}
+
+:root {
+  --bg: #1a0f0a;
+  /* deep autumn brown */
+  --card: #120908;
+  --muted: #c4a98a;
+  --accent1: #e8a54b;
+  /* warm orange */
+  --accent2: #a65d2a;
+  /* burnt sienna */
+  --glass: rgba(255, 255, 255, 0.04);
+  --radius: 12px;
+  --max: 1100px;
+  --container-padding: 24px;
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 }
-html,body{height:100%;background:linear-gradient(180deg,var(--bg),#07130B);color:#e6eef8}
-.container{max-width:var(--max);margin:0 auto;padding:40px var(--container-padding)}
-.site-header{backdrop-filter: blur(6px);position:sticky;top:0;z-index:20;background:linear-gradient(180deg,rgba(5,10,20,0.6),transparent)}
-.header-inner{display:flex;align-items:center;justify-content:space-between}
-.brand{display:flex;gap:12px;align-items:center}
-.logo-text{font-weight:700;color:var(--accent2);letter-spacing:.2px}
-.nav a{color:var(--muted);margin-left:18px;text-decoration:none}
-.nav a:hover{color:#fff}
 
-.hero{padding:48px 0}
-.hero-inner{display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:center}
-.hero-copy h1{font-size:clamp(1.4rem,3vw,2.2rem);margin-bottom:10px}
-.hero-copy p{color:var(--muted);margin-bottom:18px}
-.btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#05210a;padding:10px 16px;border-radius:10px;text-decoration:none;font-weight:600;display:inline-block}
-.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
-.hero-cta{display:flex;gap:12px}
-
-.hero-card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:18px;border-radius:14px;box-shadow:0 6px 20px rgba(15,20,36,0.5)}
-.stats-grid{display:flex;gap:12px;justify-content:space-between}
-.stat{padding:10px;background:var(--glass);border-radius:10px;flex:1}
-.stat-value{font-weight:700;font-size:1.1rem;display:inline-block;transition:transform .45s cubic-bezier(.2,.9,.2,1);}
-.stat-value.pop{transform:translateY(-6px);}
-.stat-label{color:var(--muted);font-size:.85rem}
-.mini-graph{margin-top:12px;height:40px}
-
-/* subtle glow behind stats */
-.hero-card .stat{position:relative;overflow:hidden}
-.hero-card .stat::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(58,122,254,0.06),transparent);border-radius:10px} 
-
-.dashboard h2,.log h2{margin-bottom:12px}
-.workouts{display:grid;gap:12px}
-.workout-card{background:linear-gradient(180deg, rgba(156,207,106,0.04), var(--card));padding:12px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;transition:transform .18s ease,box-shadow .18s ease;opacity:0;transform:translateY(8px);animation:fadeIn .45s forwards}
-.workout-card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(6,30,12,0.6)}
-.workout-meta{color:var(--muted);font-size:.9rem}
-
-.card-actions{display:flex;align-items:center;gap:8px}
-.del{background:transparent;border:1px solid rgba(156,207,106,0.12);color:var(--muted);padding:6px 8px;border-radius:8px;cursor:pointer}
-.del:hover{background:rgba(156,207,106,0.06);color:#e6f7df}
-
-@keyframes fadeIn{to{opacity:1;transform:none}}
-
-.form{background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));padding:18px;border-radius:12px}
-.form-row{margin-bottom:12px}
-.form-row.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-label{display:block;color:var(--muted);font-size:.9rem;margin-bottom:6px}
-input,select{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
-
-.site-footer{padding:18px 0;text-align:center;color:var(--muted)}
-
-/* Responsive */
-@media (max-width:900px){
-  .hero-inner{grid-template-columns:1fr}
-  .hero-card{order: -1}
-  .container{padding:24px}
+html,
+body {
+  height: 100%;
+  background: linear-gradient(180deg, var(--bg), #0d0705);
+  color: #f5efe8
 }
 
-@media (max-width:420px){
-  .nav{display:none}
-  .stat-value{font-size:1rem}
+.container {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 40px var(--container-padding)
+}
+
+.site-header {
+  backdrop-filter: blur(6px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: linear-gradient(180deg, rgba(5, 10, 20, 0.6), transparent)
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between
+}
+
+.brand {
+  display: flex;
+  gap: 12px;
+  align-items: center
+}
+
+.logo-text {
+  font-weight: 700;
+  color: var(--accent2);
+  letter-spacing: .2px
+}
+
+.nav a {
+  color: var(--muted);
+  margin-left: 18px;
+  text-decoration: none
+}
+
+.nav a:hover {
+  color: #fff
+}
+
+.hero {
+  padding: 48px 0
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 28px;
+  align-items: center
+}
+
+.hero-copy h1 {
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  margin-bottom: 10px
+}
+
+.hero-copy p {
+  color: var(--muted);
+  margin-bottom: 18px
+}
+
+.btn {
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  color: #1a0f0a;
+  padding: 10px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block
+}
+
+.btn.ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--muted)
+}
+
+.hero-cta {
+  display: flex;
+  gap: 12px
+}
+
+.hero-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+  padding: 18px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(15, 20, 36, 0.5)
+}
+
+.stats-grid {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between
+}
+
+.stat {
+  padding: 10px;
+  background: var(--glass);
+  border-radius: 10px;
+  flex: 1
+}
+
+.stat-value {
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: inline-block;
+  transition: transform .45s cubic-bezier(.2, .9, .2, 1);
+}
+
+.stat-value.pop {
+  transform: translateY(-6px);
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: .85rem
+}
+
+.mini-graph {
+  margin-top: 12px;
+  height: 40px
+}
+
+/* subtle glow behind stats */
+.hero-card .stat {
+  position: relative;
+  overflow: hidden
+}
+
+.hero-card .stat::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(58, 122, 254, 0.06), transparent);
+  border-radius: 10px
+}
+
+.dashboard h2,
+.log h2 {
+  margin-bottom: 12px
+}
+
+.workouts {
+  display: grid;
+  gap: 12px
+}
+
+.workout-card {
+  background: linear-gradient(180deg, rgba(232, 165, 75, 0.04), var(--card));
+  padding: 12px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform .18s ease, box-shadow .18s ease;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: fadeIn .45s forwards
+}
+
+.workout-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(26, 15, 10, 0.6)
+}
+
+.workout-meta {
+  color: var(--muted);
+  font-size: .9rem
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px
+}
+
+.del {
+  background: transparent;
+  border: 1px solid rgba(232, 165, 75, 0.12);
+  color: var(--muted);
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer
+}
+
+.del:hover {
+  background: rgba(232, 165, 75, 0.06);
+  color: #faf3e8
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: none
+  }
+}
+
+.form {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.02));
+  padding: 18px;
+  border-radius: 12px
+}
+
+.form-row {
+  margin-bottom: 12px
+}
+
+.form-row.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px
+}
+
+label {
+  display: block;
+  color: var(--muted);
+  font-size: .9rem;
+  margin-bottom: 6px
+}
+
+/* inputs and selects use light text for readability against dark controls */
+input,
+select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--card);
+  color: #f5efe8;
+  -webkit-text-fill-color: #f5efe8;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none
+}
+
+select {
+  background-image: linear-gradient(45deg, transparent 50%, rgba(0, 0, 0, 0.12) 50%), linear-gradient(135deg, rgba(255, 255, 255, 0.06) 50%, transparent 50%);
+  background-position: calc(100% - 14px) calc(1em + 2px), calc(100% - 10px) calc(1em + 2px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 30px
+}
+
+/* Attempt to style dropdown list background and text for most browsers */
+option,
+select option,
+select optgroup {
+  background: var(--card);
+  color: #f5efe8;
+}
+
+/* Some browsers force native UI; add more specificity and MS/WEBKIT tweaks */
+select::-ms-expand {
+  display: none
+}
+
+select::-webkit-color-swatch-wrapper {
+  background: transparent
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid rgba(232, 165, 75, 0.18);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(166, 93, 42, 0.06)
+}
+
+.site-footer {
+  padding: 18px 0;
+  text-align: center;
+  color: var(--muted)
+}
+
+/* Responsive */
+@media (max-width:900px) {
+  .hero-inner {
+    grid-template-columns: 1fr
+  }
+
+  .hero-card {
+    order: -1
+  }
+
+  .container {
+    padding: 24px
+  }
+}
+
+@media (max-width:420px) {
+  .nav {
+    display: none
+  }
+
+  .stat-value {
+    font-size: 1rem
+  }
 }
